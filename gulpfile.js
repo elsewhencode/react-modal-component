@@ -2,7 +2,6 @@ var gulp = require('gulp');
 var babel = require('gulp-babel');
 
 gulp.task('build', function () {
-  console.log('build process')
     return gulp.src('./src/**')
         .pipe(babel({
             plugins: ['transform-object-rest-spread'],
