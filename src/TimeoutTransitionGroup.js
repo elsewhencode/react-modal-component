@@ -14,8 +14,11 @@
  * addons and under the Apache 2.0 License.
  */
 
-var React = require('react/addons');
-var ReactTransitionGroup = React.addons.TransitionGroup;
+'use strict';
+
+var React = require('react');
+var ReactDom = require('react-dom');
+var ReactTransitionGroup = require('react-addons-transition-group');
 var TICK = 17;
 
 /**
@@ -130,7 +133,7 @@ var TimeoutTransitionGroupChild = React.createClass({
         leaveTranstion: false
     },
     transition: function(animationType, finishCallback) {
-        var node = this.getDOMNode();
+        var node = ReactDom.findDOMNode(this);
         var className = this.props.name + '-' + animationType;
         var activeClassName = className + '-active';
 
@@ -177,9 +180,10 @@ var TimeoutTransitionGroupChild = React.createClass({
     },
 
     flushClassNameQueue: function() {
+        var node = ReactDom.findDOMNode(this);
         if (this.isMounted()) {
             this.classNameQueue.forEach(function(name) {
-              addClass(this.getDOMNode(), name);
+              addClass(node, name);
             }.bind(this));
         }
         this.classNameQueue.length = 0;

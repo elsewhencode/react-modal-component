@@ -1,13 +1,16 @@
+'use strict';
+
 var React = require('react');
+var ReactDom = require('react-dom');
+var ReactTransitionGroup = require('react-addons-transition-group');
 var TimeoutTransitionGroup = require('./TimeoutTransitionGroup');
 var domEvents = require('attach-dom-events');
 var selectParent = require('select-parent');
 
-attachEvents = domEvents.on;
-detachEvents = domEvents.off;
+var attachEvents = domEvents.on;
+var detachEvents = domEvents.off;
 
 var PropTypes = React.PropTypes;
-var ReactTransitionGroup = React.addons.TransitionGroup;
 var validateClosePropTypes = function(props, propName, componentName) {
     var propValue = props[propName];
    if (propValue != null && typeof propValue !== 'boolean') {
@@ -63,7 +66,7 @@ var Modal = React.createClass({
         this.node = document.createElement('div');
         this.node.className = this.props.overlay;
         this.props.appendTo.appendChild(this.node);
-        React.render(<_Modal {...this.props}/>, this.node);
+        ReactDom.render(<_Modal {...this.props}/>, this.node);
         if (this.props.closeOnOutsideClick) {
             attachEvents(this.node, {
                 'click': this._closeOnOutsideClick
@@ -91,7 +94,7 @@ var Modal = React.createClass({
     },
 
     onTransitionEnd: function() {
-        React.unmountComponentAtNode(this.node);
+        ReactDom.unmountComponentAtNode(this.node);
         document.body.removeChild(this.node);
         if (this.props.closeOnOutsideClick) {
             detachEvents(this.node, {
@@ -108,7 +111,7 @@ var Modal = React.createClass({
 
     componentWillUnmount: function() {
         if (this.props.transitionName) {
-            React.render(<_Modal {...this.props} children={null} onTransitionEnd={this.onTransitionEnd}/>,
+            ReactDom.render(<_Modal {...this.props} children={null} onTransitionEnd={this.onTransitionEnd}/>,
                         this.node);
         } else {
             this.onTransitionEnd();
@@ -121,7 +124,8 @@ var _Modal = React.createClass({
 
     render: function() {
         var {appendTo, overlay, className, children, ...other} = this.props,
-            key = 'modal-'+ Math.random();
+            key = 'modal-'+ Math.random(),
+            node;
 
         if (children) {
             node = (<div key={key} className={className}>
