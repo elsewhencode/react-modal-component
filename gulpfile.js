@@ -1,10 +1,11 @@
 var gulp = require('gulp');
-var react = require('gulp-react');
+var babel = require('gulp-babel');
 
 gulp.task('build', function () {
     return gulp.src('./src/**')
-        .pipe(react({
-            harmony: true
+        .pipe(babel({
+            plugins: ['transform-object-rest-spread'],
+            presets: ['es2015', 'react']
         }))
         .pipe(gulp.dest('./lib'));
 });
