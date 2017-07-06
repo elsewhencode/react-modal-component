@@ -2,6 +2,7 @@ var insertCSS = require('insert-css');
 var domReady = require('domready');
 var domify = require('domify');
 var React = require('react')
+var ReactDOM = require('react-dom')
 var Modal = require('../src/index');
 
 var fs = require('fs');
@@ -37,5 +38,5 @@ var SomePage = React.createClass({
 
 domReady(function () {
   document.body.appendChild(domify('<div class="container"></div>'));
-  React.render(<SomePage/>, document.querySelector('.container'));
+  ReactDOM.render(<SomePage/>, document.querySelector('.container'));
 });
